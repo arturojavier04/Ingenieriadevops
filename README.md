@@ -36,3 +36,13 @@ Todos los mensajes de commit deben seguir la estructura de *Conventional Commits
 ### Estrategia de Revisión y Merge
 1. **Uso obligatorio de Pull Requests (PR):** Ningún cambio se integra directamente a `main` o `develop`.
 2. **Revisión por pares:** Todo PR debe ser revisado y aprobado por el otro integrante antes de fusionarse (*Merge*).
+
+
+## Preguntas de reflexion.
+
+En nuestro caso usamos herramientas de inteligencia artificial tales como Gemini o Claude para ayudarnos con sintaxis de ci.yml o comandos específicos de git. 
+
+Reforzamos de manera bastante profunda como utilizar la plataforma de GitHub y conocimos muchos apartados con los que no habíamos tenido la oportunidad o necesidad de trabajar anteriormente tal como lo es el Action. 
+
+Las dificultades tecnicas vinieron principalmente del lado de los push y pull como tambien con la sintaxis de yml. Nos enfrentamos varias veces a ramas que se quedaban atras, pushes que no se hacían completos o de la forma que deseabamos. De igual manera tuvimos que migrar en una oportunidad de repositorio puesto que clonamos el repositorio dentro del repositorio (?) aun no entendemos muy bien por qué sucedió pero estos pequeños errores nos hacen tomar consciencia de qué cosas tenemos que hacer y qué cosas no y en qué orden hay que hacerlas para futuras ocasiones. El trabajo de igual forma se nos hizo bastante entretenido y didactico así que nos enfrentamos al resto de de la materia con bastantes ganas de seguir aprendiendo. 
+
