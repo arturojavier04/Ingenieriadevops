@@ -1,31 +1,27 @@
-YAML
 name: Pipeline CI DevOps
-
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: ["develop"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      ## Copiar el código del repositorio en la máquina virtual de GitHub
       - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      ## Simulación de ejecución de tareas CI
-      - name: Confirmación de entorno
+      - name: Confirmacion de entorno
         run: |
           echo "Iniciando pipeline de Integracion Continua (CI)..."
           echo "Evento disparado por: ${{ github.event_name }}"
           echo "Rama actual: ${{ github.ref }}"
 
-      - name: Simulación de instalación de dependencias y pruebas
+      - name: Simulacion de instalacion y pruebas
         run: |
           echo "Instalando dependencias del microservicio..."
           echo "Ejecutando suite de pruebas automatizadas..."
-          echo "Pipeline ejecutado exitosamente!" 
+          echo "Pipeline ejecutado exitosamente!"
