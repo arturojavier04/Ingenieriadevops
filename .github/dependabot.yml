@@ -1,0 +1,24 @@
+﻿
+version: 2
+
+updates:
+  # Dependencias Java y Spring Boot
+  - package-ecosystem: "maven"
+    directory: "/ms-producto"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  # Imagenes Docker
+  - package-ecosystem: "docker"
+    directory: "/ms-producto"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  # Acciones de GitHub
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
