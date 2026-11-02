@@ -1,12 +1,14 @@
 
 name: EP2 - Pipeline CI/CD ms-producto
 
+
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
   workflow_dispatch:
+
 
 permissions:
   contents: read
@@ -64,6 +66,15 @@ jobs:
 
       - name: Construir imagen Docker
         run: |
+          echo "Directorio actual:"
+          pwd
+
+          echo "Archivos disponibles:"
+          ls -la
+
+          echo "Comprobando Dockerfile:"
+          test -f Dockerfile
+
           docker build \
             -t ms-producto:ep2 \
             -t ms-producto:${{ github.sha }} .
