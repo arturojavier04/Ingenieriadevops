@@ -1,0 +1,18 @@
+
+# Archivos compilados de Maven
+**/target/
+
+# Archivos compilados de Java
+*.class
+
+# Logs
+*.log
+
+# Configuración local de IDE
+.idea/
+.vscode/
+*.iml
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
