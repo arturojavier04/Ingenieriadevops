@@ -1,0 +1,1 @@
+Feature 2: estructura base para nueva funcionalidad
