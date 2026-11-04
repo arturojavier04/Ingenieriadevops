@@ -1,0 +1,100 @@
+name: EP2 - Seguridad y calidad ms-producto
+
+# Este workflow BLOQUEA el merge si falla el analisis de seguridad (IE3).
+# Para que el bloqueo sea real, en GitHub: Settings > Branches > Branch protection rule
+# sobre "main" > "Require status checks to pass" y marcar los jobs de este workflow.
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cobertura:
+    name: Pruebas y umbral de cobertura (JaCoCo)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ms-producto
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: ms-producto/pom.xml
+
+      # 'verify' ejecuta las pruebas y la regla jacoco:check (falla si la cobertura < minimo)
+      - name: Pruebas + verificacion de cobertura
+        run: mvn -B -ntp clean verify
+
+      - name: Guardar reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-jacoco
+          path: ms-producto/target/site/jacoco/
+          if-no-files-found: ignore
+
+  codeql:
+    name: Analisis de codigo (CodeQL)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: ms-producto/pom.xml
+
+      - name: Inicializar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java-kotlin
+          build-mode: manual
+
+      - name: Compilar para el analisis
+        working-directory: ms-producto
+        run: mvn -B -ntp -DskipTests clean package
+
+      - name: Analizar con CodeQL
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:java-kotlin
+
+  trivy:
+    name: Escaneo de imagen Docker (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Construir imagen
+        working-directory: ms-producto
+        run: docker build -t ms-producto:scan .
+
+      # exit-code 1 => el job FALLA si hay vulnerabilidades HIGH o CRITICAL con parche disponible
+      - name: Escanear imagen con Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ms-producto:scan
+          format: table
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
